@@ -5,4 +5,14 @@ network: testnet
 stacks-node: "https://api.testnet.hiro.so"
 bitcoin-node: "http://blockstack:blockstacksystem@bitcoind.testnet.stacks.co:18332"
 plan:
-  batches: []
+  batches:
+    - id: 0
+      transactions:
+        - contract-publish:
+            contract-name: tic-tac-toe
+            expected-sender: ST168JS95Y70CV8T7T63GF8V420FG2VCBZ5TXP2DA
+            cost: 90730
+            path: contracts/tic-tac-toe.clar
+            anchor-block-only: true
+            clarity-version: 1
+      epoch: "2.05"
