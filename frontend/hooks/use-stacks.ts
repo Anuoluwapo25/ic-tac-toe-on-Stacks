@@ -2,8 +2,8 @@ import { createNewGame, joinGame, Move, play } from "@/lib/contract";
 import { getStxBalance } from "@/lib/stx-utils";
 import {
   AppConfig,
+  authenticate,
   openContractCall,
-  showConnect,
   type UserData,
   UserSession,
 } from "@stacks/connect";
@@ -23,12 +23,12 @@ export function useStacks() {
   const [stxBalance, setStxBalance] = useState(0);
 
   function connectWallet() {
-    showConnect({
+    authenticate({
       appDetails,
+      userSession,
       onFinish: () => {
         window.location.reload();
       },
-      userSession,
     });
   }
 

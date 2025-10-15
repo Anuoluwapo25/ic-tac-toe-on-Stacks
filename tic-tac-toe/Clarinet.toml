@@ -5,8 +5,8 @@ authors = []
 telemetry = true
 cache_dir = "./.cache"
 
-[contracts.tic-tac-toe]
-path = "contracts/tic-tac-toe.clar"
+[contracts.tic-tac-toev2]
+path = "contracts/tic-tac-toev2.clar"
 # epoch = "latest"
 
 [repl.analysis]
@@ -14,9 +14,6 @@ passes = ["check_checker"]
 check_checker = { trusted_sender = false, trusted_caller = false, callee_filter = false }
 
 
-[wallets.wallet_1]
-principal = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
-mnemonic = "..."
 
 # Check-checker settings:
 # trusted_sender: if true, inputs are trusted after tx_sender has been checked.

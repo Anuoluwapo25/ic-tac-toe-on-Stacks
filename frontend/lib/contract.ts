@@ -11,8 +11,8 @@ import {
   UIntCV,
 } from "@stacks/transactions";
 
-const CONTRACT_ADDRESS = "ST3P49R8XXQWG69S66MZASYPTTGNDKK0WW32RRJDN";
-const CONTRACT_NAME = "tic-tac-toe";
+const CONTRACT_ADDRESS = "ST168JS95Y70CV8T7T63GF8V420FG2VCBZ5TXP2DA";
+const CONTRACT_NAME = "tic-tac-toev2";
 
 type GameCV = {
   "player-one": PrincipalCV;
@@ -52,7 +52,6 @@ export const EMPTY_BOARD = [
 ];
 
 export async function getAllGames() {
-  // Fetch the latest-game-id from the contract
   const latestGameIdCV = (await fetchCallReadOnlyFunction({
     contractAddress: CONTRACT_ADDRESS,
     contractName: CONTRACT_NAME,
@@ -62,10 +61,8 @@ export async function getAllGames() {
     network: STACKS_TESTNET,
   })) as UIntCV;
 
-  // Convert the uintCV to a JS/TS number type
   const latestGameId = parseInt(latestGameIdCV.value.toString());
 
-  // Loop from 0 to latestGameId-1 and fetch the game details for each game
   const games: Game[] = [];
   for (let i = 0; i < latestGameId; i++) {
     const game = await getGame(i);
@@ -75,7 +72,6 @@ export async function getAllGames() {
 }
 
 export async function getGame(gameId: number) {
-  // Use the get-game read only function to fetch the game details for the given gameId
   const gameDetails = await fetchCallReadOnlyFunction({
     contractAddress: CONTRACT_ADDRESS,
     contractName: CONTRACT_NAME,
@@ -86,12 +82,9 @@ export async function getGame(gameId: number) {
   });
 
   const responseCV = gameDetails as OptionalCV<TupleCV<GameCV>>;
-  // If we get back a none, then the game does not exist and we return null
   if (responseCV.type === "none") return null;
-  // If we get back a value that is not a tuple, something went wrong and we return null
   if (responseCV.value.type !== "tuple") return null;
 
-  // If we got back a GameCV tuple, we can convert it to a Game object
   const gameCV = responseCV.value.value;
 
   const game: Game = {
@@ -120,6 +113,7 @@ export async function createNewGame(
     contractName: CONTRACT_NAME,
     functionName: "create-game",
     functionArgs: [uintCV(betAmount), uintCV(moveIndex), uintCV(move)],
+    network: STACKS_TESTNET, 
   };
 
   return txOptions;
@@ -131,6 +125,7 @@ export async function joinGame(gameId: number, moveIndex: number, move: Move) {
     contractName: CONTRACT_NAME,
     functionName: "join-game",
     functionArgs: [uintCV(gameId), uintCV(moveIndex), uintCV(move)],
+    network: STACKS_TESTNET, 
   };
 
   return txOptions;
@@ -142,6 +137,7 @@ export async function play(gameId: number, moveIndex: number, move: Move) {
     contractName: CONTRACT_NAME,
     functionName: "play",
     functionArgs: [uintCV(gameId), uintCV(moveIndex), uintCV(move)],
+    network: STACKS_TESTNET, 
   };
 
   return txOptions;
